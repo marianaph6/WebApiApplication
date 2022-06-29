@@ -1,11 +1,19 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApiApplication.Context;
 using WebApiApplication.Entities;
-using Microsoft.Extensions.Logging;
 using WebApiApplication.Models;
-using AutoMapper;
-using Microsoft.AspNetCore.JsonPatch;
 
 namespace WebApiApplication.Controllers
 {
@@ -16,6 +24,7 @@ namespace WebApiApplication.Controllers
     //-Regla de ruteo
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class UsersController : ControllerBase
     {
         private readonly ApplicationDbContext context;
