@@ -4,7 +4,7 @@
 
 namespace WebApiApplication.Migrations
 {
-    public partial class loginv3 : Migration
+    public partial class create_models2 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

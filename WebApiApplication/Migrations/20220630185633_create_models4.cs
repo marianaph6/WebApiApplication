@@ -4,7 +4,7 @@
 
 namespace WebApiApplication.Migrations
 {
-    public partial class mensaje : Migration
+    public partial class create_models4 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

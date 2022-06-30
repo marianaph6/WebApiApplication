@@ -4,7 +4,7 @@
 
 namespace WebApiApplication.Migrations
 {
-    public partial class add_colums : Migration
+    public partial class create_models3 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -15,12 +15,12 @@ namespace WebApiApplication.Migrations
                 nullable: false,
                 defaultValue: "");
 
-            migrationBuilder.AddColumn<int>(
+            migrationBuilder.AddColumn<long>(
                 name: "Cedula",
                 table: "AspNetUsers",
-                type: "int",
+                type: "bigint",
                 nullable: false,
-                defaultValue: 0);
+                defaultValue: 0L);
 
             migrationBuilder.AddColumn<string>(
                 name: "Nombre",

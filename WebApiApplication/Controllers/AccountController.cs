@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -23,13 +24,62 @@ namespace WebApiApplication.Controllers
             _configuration = configuration;
         }
 
+
         //Recibir userInfo (user y password)
         // Instanciar application user para pasar info y crear el usuario
-        [HttpPost("Create")]
-        public async Task<ActionResult<UserToken>> CreateUser([FromBody] UserInfo model)
+        [HttpPost("Register")]
+        public async Task<ActionResult> Register([FromBody] UserRegisterDTO model)
         {
-            var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Cedula = model.Cedula, Nombre = model.Nombre, Apellido= model.Apellido};
-            var result = await _userManager.CreateAsync(user, model.Password);
+            var result = new IdentityResult();
+
+            if (ModelState.IsValid)
+            {
+
+                var userCheck = await _userManager.FindByEmailAsync(model.Email);
+                if (userCheck == null)
+                {
+                    var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Nombre = model.Nombre, Apellido = model.Apellido, Cedula = model.Cedula };
+                    result = await _userManager.CreateAsync(user, model.Password);
+                }
+                else
+                {
+                    ModelState.AddModelError("message", "El email ya existe");
+                }
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Invalid register attempt.");
+                return BadRequest(ModelState);
+            }
+
+            if (result.Succeeded)
+            {
+                return Ok(model);
+            }
+            else
+            {
+                return BadRequest(result.Errors);
+            }
+        }
+
+        [HttpPost("Login")]
+        public async Task<ActionResult<UserToken>> Login([FromBody] UserLoginDTO model)
+        {
+
+            var result = new Microsoft.AspNetCore.Identity.SignInResult();
+
+            if (ModelState.IsValid)
+            {
+                result = await _signInManager.PasswordSignInAsync(model.Email,
+                                                                  model.Password,
+                                                                  isPersistent: false, 
+                                                                  lockoutOnFailure: false);
+            }
+
+            else
+            {
+                ModelState.AddModelError("message", "Invalid login model data");
+            }
 
             if (result.Succeeded)
             {
@@ -37,30 +87,22 @@ namespace WebApiApplication.Controllers
             }
             else
             {
-                return BadRequest("User or password invalid");
-            }
-        }
-
-        [HttpPost("Login")]
-        public async Task<ActionResult<UserToken>> Login([FromBody] UserInfo userInfo)
-        {
-            var result = await _signInManager.PasswordSignInAsync(userInfo.Email, userInfo.Password, isPersistent: false, lockoutOnFailure: false);
-
-            if (result.Succeeded)
-            {
-                return BuildToken(userInfo);
-            }
-            else
-            {
                 ModelState.AddModelError(string.Empty, "Invalid login attempt.");
                 return BadRequest(ModelState);
             }
 
+
         }
+
+        //public async Task<IActionResult> Logout()
+        //{
+        //    await _signInManager.SignOutAsync();
+        //    return RedirectToAction("login", "account");
+        //}
 
         //Construir token
         //Instanciar Claims (info confiable que  viaja en el token)
-        private UserToken BuildToken(UserInfo userInfo)
+        private UserToken BuildToken(UserLoginDTO userInfo)
         {
             var claims = new List<Claim>
             {

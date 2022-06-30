@@ -12,7 +12,7 @@
     "WebApiApplication": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "api/users",
+      "launchUrl": "api/account/login",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
