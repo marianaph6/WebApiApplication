@@ -12,8 +12,8 @@ using WebApiApplication.Context;
 namespace WebApiApplication.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220630185633_create_models4")]
-    partial class create_models4
+    [Migration("20220705171726_restoreBD")]
+    partial class restoreBD
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
