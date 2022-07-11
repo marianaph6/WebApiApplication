@@ -83,7 +83,10 @@ namespace WebApiApplication.Controllers
 
             if (result.Succeeded)
             {
-                return BuildToken(model);
+
+                var user=await _userManager.FindByNameAsync(model.Email);
+                var roles= await _userManager.GetRolesAsync(user);
+                return BuildToken(model,roles);
             }
             else
             {
@@ -102,16 +105,23 @@ namespace WebApiApplication.Controllers
 
         //Construir token
         //Instanciar Claims (info confiable que  viaja en el token)
-        private UserToken BuildToken(UserLoginDTO userInfo)
+
+        private UserToken BuildToken(UserLoginDTO userInfo, IList<string> roles)
         {
             var claims = new List<Claim>
             {
-        new Claim(JwtRegisteredClaimNames.UniqueName, userInfo.Email),
-        //new Claim("miValor", "Lo que yo quiera"),
 
-        //JTI → Identificar de manera unica un token
-        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                new Claim(JwtRegisteredClaimNames.UniqueName, userInfo.Email),
+                //new Claim("miValor", "Lo que yo quiera"),
+
+                //JTI → Identificar de manera unica un token
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
     };
+
+            foreach (var rol in roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, rol));
+            }
 
             //Construir llave simetrica de seguridad para garantizar la autenticidad de la info que se está recibiendo
 

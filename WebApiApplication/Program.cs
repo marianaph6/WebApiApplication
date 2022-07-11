@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using WebApiApplication.Context;
 using WebApiApplication.Models;
+using WebApiApplication.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,8 +17,11 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
+//Habilitar CORS
 builder.Services.AddCors(options =>
 {
+    //Añadir politicas de seguridad
     options.AddPolicy("cors",
         b =>
             b.AllowAnyOrigin()
@@ -36,6 +40,9 @@ builder.Services.AddCors(options =>
 //Metodo que sirve para configurar un conexto de datos en ASP.NET Core
 //Se obtiene de uno de los proveedores de conf el connection string
 
+
+builder.Services.AddScoped<HashService>();
+builder.Services.AddDataProtection();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
