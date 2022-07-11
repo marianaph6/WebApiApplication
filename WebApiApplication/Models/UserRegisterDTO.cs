@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using WebApiApplication.Validations;
 
 namespace WebApiApplication.Models
 {
@@ -9,10 +10,12 @@ namespace WebApiApplication.Models
         public long Cedula { get; set; }
 
         [Required(ErrorMessage ="El Nombre es requerido")]
+        [FirstCapitalLetter]
         [Display(Name = "Nombre")]
         public string Nombre { get; set; }
 
         [Required (ErrorMessage ="El Apellido es requerido")]
+        [FirstCapitalLetter]
         [Display(Name = "Apellido")]
         public string Apellido { get; set; }
 
