@@ -90,7 +90,7 @@ namespace WebApiApplication.Controllers
             }
             else
             {
-                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                ModelState.AddModelError("Error", "Usuario o contraseña invalidos.");
                 return BadRequest(ModelState);
             }
 

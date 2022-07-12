@@ -93,3 +93,6 @@ C:\Users\mpalacios\source\repos\WebApiApplication\WebApiApplication\obj\Debug\ne
 C:\Users\mpalacios\source\repos\WebApiApplication\WebApiApplication\obj\Debug\net6.0\WebApiApplication.pdb
 C:\Users\mpalacios\source\repos\WebApiApplication\WebApiApplication\obj\Debug\net6.0\WebApiApplication.genruntimeconfig.cache
 C:\Users\mpalacios\source\repos\WebApiApplication\WebApiApplication\obj\Debug\net6.0\ref\WebApiApplication.dll
+C:\Users\mpalacios\source\repos\WebApiApplication\WebApiApplication\bin\Debug\net6.0\FluentValidation.dll
+C:\Users\mpalacios\source\repos\WebApiApplication\WebApiApplication\bin\Debug\net6.0\FluentValidation.AspNetCore.dll
+C:\Users\mpalacios\source\repos\WebApiApplication\WebApiApplication\bin\Debug\net6.0\FluentValidation.DependencyInjectionExtensions.dll
