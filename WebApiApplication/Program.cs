@@ -20,15 +20,12 @@ builder.Services.AddSwaggerGen();
 
 
 //Habilitar CORS
-builder.Services.AddCors(options =>
+builder.Services.AddCors(o => o.AddPolicy("cors", builder =>
 {
-    //Añadir politicas de seguridad
-    options.AddPolicy("cors",
-        b =>
-            b.AllowAnyOrigin()
+    builder.AllowAnyOrigin()
            .AllowAnyMethod()
-           .AllowAnyHeader());
-});
+           .AllowAnyHeader();
+}));
 
 
 //Configurar mapeo de entidades a DTO
