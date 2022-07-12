@@ -38,23 +38,25 @@ namespace WebApiApplication.Controllers
                 var userCheck = await _userManager.FindByEmailAsync(model.Email);
                 if (userCheck == null)
                 {
+
                     var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Nombre = model.Nombre, Apellido = model.Apellido, Cedula = model.Cedula };
                     result = await _userManager.CreateAsync(user, model.Password);
                 }
                 else
                 {
-                    ModelState.AddModelError("message", "El email ya existe");
+                    
+                    return BadRequest(new { message = "El usuario ya existe" });
                 }
             }
             else
             {
-                ModelState.AddModelError(string.Empty, "Invalid register attempt.");
+                ModelState.AddModelError(string.Empty, "Modelo de regsitro de usuario invalido");
                 return BadRequest(ModelState);
             }
 
             if (result.Succeeded)
             {
-                return Ok(model);
+                return Ok(new { message = "Registro exitoso" });
             }
             else
             {

@@ -63,6 +63,18 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                      ClockSkew = TimeSpan.Zero
                  });
 
+
+builder.Services.Configure<IdentityOptions>(options =>
+{
+    // Password settings.
+    options.Password.RequireDigit = true;
+    options.Password.RequireLowercase = true;
+    options.Password.RequireNonAlphanumeric = true;
+    options.Password.RequireUppercase = true;
+    options.Password.RequiredLength=15;
+    options.Password.RequiredUniqueChars = 1;
+});
+
 //builder.Services.ConfigureApplicationCookie(options =>
 //{
 //    options.LoginPath = $"/account/login";
